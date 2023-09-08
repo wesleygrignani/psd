@@ -1,2 +1,2 @@
 # psd
-Repositório criado para a disciplina de Projetos de Sistemas Digitais
+Repository created for the Digital Design course
