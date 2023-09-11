@@ -12,5 +12,23 @@ end demux1_2bit;
 architecture rtl of demux1_2bit is
 -- teste
 begin
+  
+  process (i_SEL, i_D)
+  begin
+    if (i_SEL = '0') then
+      o_S0 <= i_D;
+    else
+      o_S0 <= '0';
+    end if;
+  end process;
 
-end architecture;
+  process (i_SEL, i_D)
+  begin
+    if (i_SEL = '0') then
+      o_S1 <= '0';
+    else
+      o_S1 <= i_D;
+    end if;
+  end process;
+
+end rtl;
