@@ -41,6 +41,137 @@ begin
   process
   begin
 
+    -- Data inputs  
+    w_A <= '0';
+    w_B <= '0';
+    -- Selector is set to multiplex i_A
+    w_SEL_M <= '0';
+    -- Selector is set to trigger demux input to o_S0 output
+    w_SEL_D <= '0';
+    wait for 1 ns;
+    assert(w_S0 = '0') report "Fail @ 0000" severity error;
+    assert(w_S1 = '0') report "Fail @ 0000" severity error;
+
+    -- input change 
+    w_A <= '1';
+    w_B <= '0';
+    wait for 1 ns;
+    assert(w_S0 = '1') report "Fail @ 1000" severity error;
+    assert(w_S1 = '0') report "Fail @ 1000" severity error;
+
+    -- input change
+    w_A <= '0';
+    w_B <= '1';
+    wait for 1 ns;
+    assert(w_S0 = '0') report "Fail @ 0100" severity error;
+    assert(w_S1 = '0') report "Fail @ 0100" severity error;
+
+    -- input change 
+    w_A <= '1';
+    w_B <= '1';
+    wait for 1 ns;
+    assert(w_S0 = '1') report "Fail @ 1100" severity error;
+    assert(w_S1 = '0') report "Fail @ 1100" severity error;
+
+    -- now selector is set to trigger demux input to o_S1 output
+    w_A     <= '0';
+    w_B     <= '0';
+    w_SEL_D <= '1';
+    wait for 1 ns;
+    assert(w_S0 = '0') report "Fail @ 0000" severity error;
+    assert(w_S1 = '0') report "Fail @ 0000" severity error;
+
+    -- input change 
+    w_A <= '1';
+    w_B <= '0';
+    wait for 1 ns;
+    assert(w_S0 = '0') report "Fail @ 1000" severity error;
+    assert(w_S1 = '0') report "Fail @ 1000" severity error;
+
+    -- input change
+    w_A <= '0';
+    w_B <= '1';
+    wait for 1 ns;
+    assert(w_S0 = '0') report "Fail @ 0100" severity error;
+    assert(w_S1 = '1') report "Fail @ 0100" severity error;
+
+    -- input change 
+    w_A <= '1';
+    w_B <= '1';
+    wait for 1 ns;
+    assert(w_S0 = '0') report "Fail @ 1100" severity error;
+    assert(w_S1 = '1') report "Fail @ 1100" severity error;
+
+    -- Changing multiplexer to select input i_B
+    -- Demux Selector is set to trigger input to o_S0 output again
+    -- Data inputs reset  
+    w_A     <= '0';
+    w_B     <= '0';
+    w_SEL_M <= '1';
+    w_SEL_D <= '0';
+    wait for 1 ns;
+    assert(w_S0 = '0') report "Fail @ 0010" severity error;
+    assert(w_S1 = '0') report "Fail @ 0010" severity error;
+
+    -- input change
+    w_A <= '1';
+    w_B <= '0';
+    wait for 1 ns;
+    assert(w_S0 = '0') report "Fail @ 1010" severity error;
+    assert(w_S1 = '0') report "Fail @ 1010" severity error;
+
+    -- input change
+    w_A <= '0';
+    w_B <= '1';
+    wait for 1 ns;
+    assert(w_S0 = '1') report "Fail @ 0110" severity error;
+    assert(w_S1 = '0') report "Fail @ 0110" severity error;
+
+    -- input change
+    w_A <= '1';
+    w_B <= '1';
+    wait for 1 ns;
+    assert(w_S0 = '1') report "Fail @ 1110" severity error;
+    assert(w_S1 = '0') report "Fail @ 1110" severity error;
+
+    -- Demux Selector is set to trigger input to o_S1 output
+    -- Data inputs reset
+    w_A     <= '0';
+    w_B     <= '0';
+    w_SEL_D <= '1';
+    wait for 1 ns;
+    assert(w_S0 = '0') report "Fail @ 0011" severity error;
+    assert(w_S1 = '0') report "Fail @ 0011" severity error;
+
+    -- input change
+    w_A <= '1';
+    w_B <= '0';
+    wait for 1 ns;
+    assert(w_S0 = '0') report "Fail @ 1011" severity error;
+    assert(w_S1 = '0') report "Fail @ 1011" severity error;
+
+    -- input change
+    w_A <= '0';
+    w_B <= '1';
+    wait for 1 ns;
+    assert(w_S0 = '0') report "Fail @ 0111" severity error;
+    assert(w_S1 = '1') report "Fail @ 0111" severity error;
+
+    -- input change
+    w_A <= '1';
+    w_B <= '1';
+    wait for 1 ns;
+    assert(w_S0 = '0') report "Fail @ 1111" severity error;
+    assert(w_S1 = '1') report "Fail @ 1111" severity error;
+
+    -- clear inputs  
+    w_A     <= '0';
+    w_B     <= '0';
+    w_SEL_M <= '0';
+    w_SEL_D <= '0';
+    assert false report "Test done." severity note;
+    wait;
+
   end process;
 
 end rtl;
