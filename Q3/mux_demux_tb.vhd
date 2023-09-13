@@ -14,8 +14,7 @@ architecture rtl of mux_demux_tb is
       i_SEL_M : in std_logic; -- mux selector
       i_SEL_D : in std_logic; -- demux selector
       o_S0    : out std_logic; -- data output 
-      o_S1    : out std_logic; -- data output
-    );
+      o_S1    : out std_logic); -- data output
   end component;
 
   -- Signals to connect DUV component
@@ -54,9 +53,10 @@ architecture rtl of mux_demux_tb is
   ('1', '0', '1', '1', '0', '0'),
   ('0', '1', '1', '1', '0', '1'),
   ('1', '1', '1', '1', '0', '1'));
+
 begin
 
-  mux_demux : mux_demux
+  u_mux_demux : mux_demux
   port map(
     i_A     => w_A,
     i_B     => w_B,
@@ -80,9 +80,9 @@ begin
 
       assert (w_S0 = test_vectors(i).o_S0 and w_S1 = test_vectors(i).o_S1)
       report "test_vector " & integer'image(i) & " failed " &
-        " for inputs = " & std_logic'image(i_A) &
-        std_logic'image(i_B) & std_logic'image(i_SEL_M) &
-        std_logic'image(i_SEL_D)
+        " for inputs = " & std_logic'image(w_A) &
+        std_logic'image(w_B) & std_logic'image(w_SEL_M) &
+        std_logic'image(w_SEL_D)
         severity error;
 
     end loop;

@@ -8,8 +8,7 @@ entity mux_demux is
     i_SEL_M : in std_logic; -- mux selector
     i_SEL_D : in std_logic; -- demux selector
     o_S0    : out std_logic; -- data output 
-    o_S1    : out std_logic; -- data output
-  );
+    o_S1    : out std_logic); -- data output
 end mux_demux;
 
 architecture rtl of mux_demux is
