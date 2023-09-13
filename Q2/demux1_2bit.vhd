@@ -13,6 +13,7 @@ architecture rtl of demux1_2bit is
 
 begin
 
+  -- process for output o_S0
   process (i_SEL, i_D)
   begin
     if (i_SEL = '0') then
@@ -22,6 +23,7 @@ begin
     end if;
   end process;
 
+  -- process for output o_S1
   process (i_SEL, i_D)
   begin
     if (i_SEL = '0') then
