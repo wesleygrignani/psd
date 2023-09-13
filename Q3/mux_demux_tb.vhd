@@ -35,24 +35,24 @@ architecture rtl of mux_demux_tb is
   -- i_A, i_B, i_SEL_M, i_SEL_D, o_S0, o_S1
   -- Changing A and B with mux select in 0 and demux select in 0
   ('0', '0', '0', '0', '0', '0'),
-  ('1', '0', '0', '0', '1', '0'),
   ('0', '1', '0', '0', '0', '0'),
+  ('1', '0', '0', '0', '1', '0'),
   ('1', '1', '0', '0', '1', '0'),
   -- Changing A and B with mux select in 0 and demux select in 1
-  ('0', '0', '0', '1', '0', '0'),
-  ('1', '0', '0', '1', '0', '1'),
-  ('0', '1', '0', '1', '0', '0'),
   ('1', '1', '0', '1', '0', '1'),
+  ('0', '0', '0', '1', '0', '0'),
+  ('0', '1', '0', '1', '0', '0'),
+  ('1', '0', '0', '1', '0', '1'),
   -- Changing A and B with mux select in 1 and demux select in 0
-  ('0', '0', '1', '0', '0', '0'),
-  ('1', '0', '1', '0', '0', '0'),
-  ('0', '1', '1', '0', '1', '0'),
   ('1', '1', '1', '0', '1', '0'),
+  ('1', '0', '1', '0', '0', '0'),
+  ('0', '0', '1', '0', '0', '0'),
+  ('0', '1', '1', '0', '1', '0'),
   -- Changing A and B with mux select in 1 and demux select in 1
+  ('1', '1', '1', '1', '0', '1'),
   ('0', '0', '1', '1', '0', '0'),
-  ('1', '0', '1', '1', '0', '0'),
   ('0', '1', '1', '1', '0', '1'),
-  ('1', '1', '1', '1', '0', '1'));
+  ('1', '0', '1', '1', '0', '0'));
 
 begin
 
@@ -73,8 +73,8 @@ begin
 
       w_A     <= test_vectors(i).i_A;
       w_B     <= test_vectors(i).i_B;
-      w_SEL_D <= test_vectors(i).i_SEL_D;
       w_SEL_M <= test_vectors(i).i_SEL_M;
+      w_SEL_D <= test_vectors(i).i_SEL_D;
 
       wait for 1 ns;
 
