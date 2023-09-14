@@ -34,10 +34,12 @@ begin
 
   w_GRANT3 <= '1' when i_REQ0 = '0' and i_REQ1 = '0' and i_REQ2 = '0' and i_REQ3 = '1' else
     '0';
+
   o_IDEN <= "00" when w_GRANT0 = '1' else
     "01" when w_GRANT1 = '1' else
     "10" when w_GRANT2 = '1' else
-    "11" when w_GRANT3 = '1';
+    "11" when w_GRANT3 = '1' else
+    "00";
 
   o_GRANT0 <= w_GRANT0;
   o_GRANT1 <= w_GRANT1;
