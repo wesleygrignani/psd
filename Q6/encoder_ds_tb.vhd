@@ -1,11 +1,11 @@
 library ieee;
 use ieee.std_logic_1164.all;
 
-entity encoder_ex_tb is
+entity encoder_ds_tb is
   -- empty
-end encoder_ex_tb;
+end encoder_ds_tb;
 
-architecture rtl of encoder_ex_tb is
+architecture rtl of encoder_ds_tb is
 
   -- DUV component
   component encoder_ds is
@@ -54,17 +54,14 @@ architecture rtl of encoder_ex_tb is
 
 begin
 
-  u_encoder : encoder_ex
+  u_encoder : encoder_ds
   port map(
-    i_REQ0   => w_REQ0,
-    i_REQ1   => w_REQ1,
-    i_REQ2   => w_REQ2,
-    i_REQ3   => w_REQ3,
-    o_GRANT0 => w_GRANT0,
-    o_GRANT1 => w_GRANT1,
-    o_GRANT2 => w_GRANT2,
-    o_GRANT3 => w_GRANT3,
-    o_IDEN   => w_IDEN);
+    i_REQ0 => w_REQ0,
+    i_REQ1 => w_REQ1,
+    i_REQ2 => w_REQ2,
+    i_REQ3 => w_REQ3,
+    o_ACT  => w_ACT,
+    o_IDEN => w_IDEN);
 
   process
   begin
@@ -78,7 +75,7 @@ begin
 
       wait for 1 ns;
 
-      assert (w_GRANT0 = test_vectors(i).o_GRANT0 and w_GRANT1 = test_vectors(i).o_GRANT1 and w_GRANT2 = test_vectors(i).o_GRANT2 and w_GRANT3 = test_vectors(i).o_GRANT3 and w_IDEN = test_vectors(i).o_IDEN)
+      assert (w_ACT = test_vectors(i).o_ACT and w_IDEN = test_vectors(i).o_IDEN)
       report "test_vector " & integer'image(i) & " failed " &
         " for inputs = " & std_logic'image(w_REQ0) &
         std_logic'image(w_REQ1) & std_logic'image(w_REQ2) &
