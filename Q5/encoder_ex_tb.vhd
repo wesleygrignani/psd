@@ -40,7 +40,7 @@ architecture rtl of encoder_ex_tb is
 
   type test_vector_array is array (natural range <>) of test_vector;
   constant test_vectors : test_vector_array := (
-  -- i_REQ0, i_REQ1, i_REQ2, i_REQ3, i_GRANT0, i_GRANT1, i_GRANT2, i_GRANT3,
+  -- i_REQ0, i_REQ1, i_REQ2, i_REQ3, o_GRANT0, o_GRANT1, o_GRANT2, o_GRANT3, o_IDEN
   ('0', '0', '0', '0', '0', '0', '0', '0', "00"),
   ('0', '0', '0', '1', '0', '0', '0', '1', "11"),
   ('0', '0', '1', '0', '0', '0', '1', '0', "10"),
@@ -84,7 +84,9 @@ begin
 
       wait for 1 ns;
 
-      assert (w_GRANT0 = test_vectors(i).o_GRANT0 and w_GRANT1 = test_vectors(i).o_GRANT1 and w_GRANT2 = test_vectors(i).o_GRANT2 and w_GRANT3 = test_vectors(i).o_GRANT3 and w_IDEN = test_vectors(i).o_IDEN)
+      assert (w_GRANT0 = test_vectors(i).o_GRANT0 and w_GRANT1 = test_vectors(i).o_GRANT1 and
+      w_GRANT2 = test_vectors(i).o_GRANT2 and w_GRANT3 = test_vectors(i).o_GRANT3 and w_IDEN = test_vectors(i).o_IDEN)
+
       report "test_vector " & integer'image(i) & " failed " &
         " for inputs = " & std_logic'image(w_REQ0) &
         std_logic'image(w_REQ1) & std_logic'image(w_REQ2) &
