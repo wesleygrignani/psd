@@ -39,7 +39,7 @@ begin
     "01" when w_GRANT1 = '1' else
     "10" when w_GRANT2 = '1' else
     "11" when w_GRANT3 = '1' else
-    "00";
+    "UU";
 
   o_GRANT0 <= w_GRANT0;
   o_GRANT1 <= w_GRANT1;
