@@ -26,7 +26,7 @@ begin
   end process;
 
   -- Next State Function
-  process (r_STATE)
+  process (r_STATE, i_A)
   begin
     case r_STATE is
       when s_WAIT => if (i_A = '1') then
@@ -48,7 +48,7 @@ begin
 end process;
 
 -- Output Function
-o_R <= '1' when (r_STATE = s_K1 and r_STATE = s_K2 and r_STATE = s_K4) else
+o_R <= '1' when (r_STATE = s_K1 or r_STATE = s_K2 or r_STATE = s_K4) else
   '0';
 
 end arch_1;
