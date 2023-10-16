@@ -70,6 +70,7 @@ begin
 
     -- stay in B state
     w_A <= '0';
+    w_B <= '0';
     wait for c_CLK_PERIOD;
     assert(w_Y = '1') report "Fail @ state s_B" severity error;
 
