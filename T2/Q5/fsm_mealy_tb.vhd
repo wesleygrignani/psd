@@ -1,14 +1,14 @@
 library ieee;
 use ieee.std_logic_1164.all;
 
-entity fsm_moore_tb is
+entity fsm_mealy_tb is
   -- empty
-end fsm_moore_tb;
+end fsm_mealy_tb;
 
-architecture rtl of fsm_moore_tb is
+architecture rtl of fsm_mealy_tb is
 
-  -- fsm moore component
-  component fsm_moore
+  -- fsm mealy component
+  component fsm_mealy
     port (
       i_CLK : in std_logic;
       i_RST : in std_logic;
@@ -38,8 +38,8 @@ begin
     wait for c_CLK_PERIOD/2;
   end process;
 
-  -- Device under test (FSM Moore)
-  fsm_moore_inst : fsm_moore
+  -- Device under test (FSM Mealy)
+  fsm_mealy_inst : fsm_mealy
   port map(
     i_CLK => w_CLK,
     i_RST => w_RST,
@@ -47,6 +47,7 @@ begin
     i_B   => w_B,
     o_Y   => w_Y
   );
+
   process
   begin
 
@@ -82,12 +83,8 @@ begin
     wait for c_CLK_PERIOD;
     assert(w_Y = '1') report "Fail @ state s_C" severity error;
 
-    -- go to D state
+    -- return to A state
     w_B <= '1';
-    wait for c_CLK_PERIOD;
-    assert(w_Y = '0') report "Fail @ state s_D" severity error;
-
-    -- then return to A state
     wait for c_CLK_PERIOD;
     assert(w_Y = '0') report "Fail @ state s_A" severity error;
 
@@ -97,12 +94,8 @@ begin
     wait for c_CLK_PERIOD;
     assert(w_Y = '1') report "Fail @ state s_C" severity error;
 
-    -- go to D state
+    -- go to A state
     w_B <= '1';
-    wait for c_CLK_PERIOD;
-    assert(w_Y = '0') report "Fail @ state s_D" severity error;
-
-    -- then return to A state
     wait for c_CLK_PERIOD;
     assert(w_Y = '0') report "Fail @ state s_A" severity error;
 

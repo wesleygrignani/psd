@@ -1,7 +1,7 @@
 library ieee;
 use ieee.std_logic_1164.all;
 
-entity fsm_moore is
+entity fsm_mealy is
   port (
     i_CLK : in std_logic;
     i_RST : in std_logic;
@@ -9,9 +9,9 @@ entity fsm_moore is
     i_B   : in std_logic;
     o_Y   : out std_logic
   );
-end fsm_moore;
+end fsm_mealy;
 
-architecture rtl of fsm_moore is
+architecture rtl of fsm_mealy is
 
   type t_STATE is (s_A, s_B, s_C);
   signal w_NEXT  : t_STATE; -- next state
