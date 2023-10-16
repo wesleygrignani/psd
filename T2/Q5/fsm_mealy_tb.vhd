@@ -95,8 +95,8 @@ begin
     wait for c_CLK_PERIOD;
     assert(w_Y = '1') report "Fail @ state s_C" severity error;
 
-    -- go to A state
-    w_B <= '1';
+    -- go to A state and stay in A state
+    w_A <= '1';
     wait for c_CLK_PERIOD;
     assert(w_Y = '0') report "Fail @ state s_A" severity error;
 
