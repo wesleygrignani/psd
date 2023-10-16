@@ -1,16 +1,16 @@
 library ieee;
 use ieee.std_logic_1164.all;
 
-entity control is
+entity fsm_watch is
   port (
     i_CLK : in std_logic;
     i_RST : in std_logic;
     i_B   : in std_logic;
     o_S   : out std_logic_vector(1 downto 0)
   );
-end control;
+end fsm_watch;
 
-architecture rtl of control is
+architecture rtl of fsm_watch is
   type t_STATE is (s_TIME, s_TIME_AUX, s_ALARM, s_ALARM_AUX, s_STOPWATCH, s_STOPWATCH_AUX, s_DATE, s_DATE_AUX);
   signal w_NEXT  : t_STATE; -- next state
   signal r_STATE : t_STATE; -- current state
