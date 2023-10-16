@@ -20,6 +20,7 @@ begin
 
   o_N(0) <= ((not i_S(2)) and i_S(1) and (not i_S(0))) or ((not i_S(2)) and (not i_S(0) and i_A));
 
-  o_R <= ((not i_S(2)) and (not i_S(1)) and i_S(0)) or ((not i_S(2)) and i_S(1) and (not i_S(0))) or (i_S(2) and (not i_S(1)) and (not i_S(0)));
+  o_R <= ((not i_S(2)) and (not i_S(1)) and i_S(0)) or ((not i_S(2)) and i_S(1) and (not i_S(0))) or 
+  (i_S(2) and (not i_S(1)) and (not i_S(0)));
 
 end architecture;
