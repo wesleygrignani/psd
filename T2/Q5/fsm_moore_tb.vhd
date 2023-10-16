@@ -91,6 +91,21 @@ begin
     wait for c_CLK_PERIOD;
     assert(w_Y = '0') report "Fail @ state s_A" severity error;
 
+    -- now test A state going directly to C state
+    w_A <= '0';
+    w_B <= '0';
+    wait for c_CLK_PERIOD;
+    assert(w_Y = '1') report "Fail @ state s_C" severity error;
+
+    -- go to D state
+    w_B <= '1';
+    wait for c_CLK_PERIOD;
+    assert(w_Y = '0') report "Fail @ state s_D" severity error;
+
+    -- then return to A state
+    wait for c_CLK_PERIOD;
+    assert(w_Y = '0') report "Fail @ state s_A" severity error;
+
     assert false report "Test done." severity note;
     wait;
 
