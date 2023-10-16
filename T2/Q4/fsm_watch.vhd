@@ -33,70 +33,104 @@ begin
     case r_STATE is
 
       when s_TIME =>
-        if (i_B = '1') then
-          w_NEXT <= s_TIME_AUX;
-        else
-          w_NEXT <= s_TIME;
-        end if;
-
-      when s_TIME_AUX =>
-        if (i_B = '0') then
+        if (falling_edge(i_B)) then
           w_NEXT <= s_ALARM;
         else
-          w_NEXT <= s_TIME_AUX;
+          w_NEXT <= s_TIME;
         end if;
 
       when s_ALARM =>
-        if (i_B = '1') then
-          w_NEXT <= s_ALARM_AUX;
+        if (falling_edge(i_B)) then
+          w_NEXT <= s_STOPWATCH;
         else
           w_NEXT <= s_ALARM;
         end if;
 
-      when s_ALARM_AUX =>
-        if (i_B = '0') then
-          w_NEXT <= s_STOPWATCH;
-        else
-          w_NEXT <= s_ALARM_AUX;
-        end if;
-
       when s_STOPWATCH =>
-        if (i_B = '1') then
-          w_NEXT <= s_STOPWATCH_AUX;
-        else
-          w_NEXT <= s_STOPWATCH;
-        end if;
-
-      when s_STOPWATCH_AUX =>
-        if (i_B = '0') then
+        if (falling_edge(i_B)) then
           w_NEXT <= s_DATE;
         else
-          w_NEXT <= s_STOPWATCH_AUX;
+          w_NEXT <= s_STOPWATCH;
         end if;
 
       when s_DATE =>
-        if (i_B = '1') then
-          w_NEXT <= s_DATE_AUX;
+        if (falling_edge(i_B)) then
+          w_NEXT <= s_TIME;
         else
           w_NEXT <= s_DATE;
         end if;
 
-      when s_DATE_AUX =>
-        if (i_B = '0') then
-          w_NEXT <= s_TIME;
-        else
-          w_NEXT <= s_DATE_AUX;
-        end if;
+        -- when s_TIME =>
+        --   if (i_B = '1') then
+        --     w_NEXT <= s_TIME_AUX;
+        --   else
+        --     w_NEXT <= s_TIME;
+        --   end if;
+
+        -- when s_TIME_AUX =>
+        --   if (i_B = '0') then
+        --     w_NEXT <= s_ALARM;
+        --   else
+        --     w_NEXT <= s_TIME_AUX;
+        --   end if;
+
+        -- when s_ALARM =>
+        --   if (i_B = '1') then
+        --     w_NEXT <= s_ALARM_AUX;
+        --   else
+        --     w_NEXT <= s_ALARM;
+        --   end if;
+
+        -- when s_ALARM_AUX =>
+        --   if (i_B = '0') then
+        --     w_NEXT <= s_STOPWATCH;
+        --   else
+        --     w_NEXT <= s_ALARM_AUX;
+        --   end if;
+
+        -- when s_STOPWATCH =>
+        --   if (i_B = '1') then
+        --     w_NEXT <= s_STOPWATCH_AUX;
+        --   else
+        --     w_NEXT <= s_STOPWATCH;
+        --   end if;
+
+        -- when s_STOPWATCH_AUX =>
+        --   if (i_B = '0') then
+        --     w_NEXT <= s_DATE;
+        --   else
+        --     w_NEXT <= s_STOPWATCH_AUX;
+        --   end if;
+
+        -- when s_DATE =>
+        --   if (i_B = '1') then
+        --     w_NEXT <= s_DATE_AUX;
+        --   else
+        --     w_NEXT <= s_DATE;
+        --   end if;
+
+        -- when s_DATE_AUX =>
+        --   if (i_B = '0') then
+        --     w_NEXT <= s_TIME;
+        --   else
+        --     w_NEXT <= s_DATE_AUX;
+        --   end if;
 
       when others => w_NEXT <= s_TIME;
     end case;
   end process;
 
   -- Output function
-  o_S <= "00" when (r_STATE = s_TIME or r_STATE = s_TIME_AUX) else
-    "01" when (r_STATE = s_ALARM or r_STATE = s_ALARM_AUX) else
-    "10" when (r_STATE = s_STOPWATCH or r_STATE = s_STOPWATCH_AUX) else
-    "11" when (r_STATE = s_DATE or r_STATE = s_DATE_AUX) else
+  -- o_S <= "00" when (r_STATE = s_TIME or r_STATE = s_TIME_AUX) else
+  --   "01" when (r_STATE = s_ALARM or r_STATE = s_ALARM_AUX) else
+  --   "10" when (r_STATE = s_STOPWATCH or r_STATE = s_STOPWATCH_AUX) else
+  --   "11" when (r_STATE = s_DATE or r_STATE = s_DATE_AUX) else
+  --   "00";
+
+  o_S <= "00" when (r_STATE = s_TIME) else
+    "01" when (r_STATE = s_ALARM) else
+    "10" when (r_STATE = s_STOPWATCH) else
+    "11" when (r_STATE = s_DATE) else
     "00";
 
 end architecture;
