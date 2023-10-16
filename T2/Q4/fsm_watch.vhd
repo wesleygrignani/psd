@@ -14,8 +14,11 @@ architecture rtl of fsm_watch is
   type t_STATE is (s_TIME, s_TIME_AUX, s_ALARM, s_ALARM_AUX, s_STOPWATCH, s_STOPWATCH_AUX, s_DATE, s_DATE_AUX);
   signal w_NEXT  : t_STATE; -- next state
   signal r_STATE : t_STATE; -- current state
+  signal w_B     : std_logic := '0';
 
 begin
+
+  w_B <= i_B;
 
   -- State Register
   process (i_RST, i_CLK)
@@ -28,33 +31,33 @@ begin
   end process;
 
   -- Next State Function
-  process (r_STATE, i_B)
+  process (r_STATE, w_B)
   begin
     case r_STATE is
 
       when s_TIME =>
-        if (falling_edge(i_B)) then
+        if (falling_edge(w_B)) then
           w_NEXT <= s_ALARM;
         else
           w_NEXT <= s_TIME;
         end if;
 
       when s_ALARM =>
-        if (falling_edge(i_B)) then
+        if (falling_edge(w_B)) then
           w_NEXT <= s_STOPWATCH;
         else
           w_NEXT <= s_ALARM;
         end if;
 
       when s_STOPWATCH =>
-        if (falling_edge(i_B)) then
+        if (falling_edge(w_B)) then
           w_NEXT <= s_DATE;
         else
           w_NEXT <= s_STOPWATCH;
         end if;
 
       when s_DATE =>
-        if (falling_edge(i_B)) then
+        if (falling_edge(w_B)) then
           w_NEXT <= s_TIME;
         else
           w_NEXT <= s_DATE;
