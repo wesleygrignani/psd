@@ -53,6 +53,16 @@ begin
     assert(w_Y2 = "00000000") report "Fail @ R100 G100 B100" severity error;
     assert(w_K = "00111101") report "Fail @ 000" severity error;
 
+    w_R <= "01100100";
+    w_G <= "01000000";
+    w_B <= "00011000";
+
+    wait for 1 ns;
+    assert(w_C2 = "00000000") report "Fail @ R100 G64 B24" severity error;
+    assert(w_M2 = "00100100") report "Fail @ R100 G64 B24" severity error;
+    assert(w_Y2 = "01001100") report "Fail @ R100 G64 B24" severity error;
+    assert(w_K = "10011011") report "Fail @ 000" severity error;
+
     w_R <= "00000000";
     w_G <= "00000000";
     w_B <= "00000000";
