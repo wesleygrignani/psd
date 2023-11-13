@@ -32,6 +32,10 @@ begin
     wait for 1 ns;
     assert(w_F = "0000000010010011") report "Fail @ 0000000001000000" severity error;
 
+    w_C <= "0000000000011101";
+    wait for 1 ns;
+    assert(w_F = "0000000001010100") report "Fail @ 0000000000011101" severity error;
+
     -- clear input 
     w_C <= "0000000000000000";
     assert false report "Test done." severity note;
