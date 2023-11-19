@@ -48,6 +48,7 @@ architecture rtl of img_buffer is
   -- sinais para line buffer
   signal w_linebuffer_1 : std_logic_vector(PIXEL_WIDTH - 1 downto 0);
   signal w_linebuffer_2 : std_logic_vector(PIXEL_WIDTH - 1 downto 0);
+  signal w_linebuffer_3 : std_logic_vector(PIXEL_WIDTH - 1 downto 0);
 
   -- sinais para kernel window
   signal w_kernel_pixel1 : std_logic_vector(PIXEL_WIDTH - 1 downto 0);
