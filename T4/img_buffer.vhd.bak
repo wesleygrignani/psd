@@ -46,19 +46,19 @@ architecture rtl of img_buffer is
   end component;
 
   -- sinais para line buffer
-  signal w_linebuffer_1 : std_logic_vector(PIXEL_WIDTH - 1 downto 0);
-  signal w_linebuffer_2 : std_logic_vector(PIXEL_WIDTH - 1 downto 0);
+  signal w_linebuffer_1 : std_logic_vector(PIXEL_WIDTH - 1);
+  signal w_linebuffer_2 : std_logic_vector(PIXEL_WIDTH - 1);
 
   -- sinais para kernel window
-  signal w_kernel_pixel1 : std_logic_vector(PIXEL_WIDTH - 1 downto 0);
-  signal w_kernel_pixel2 : std_logic_vector(PIXEL_WIDTH - 1 downto 0);
-  signal w_kernel_pixel3 : std_logic_vector(PIXEL_WIDTH - 1 downto 0);
-  signal w_kernel_pixel4 : std_logic_vector(PIXEL_WIDTH - 1 downto 0);
-  signal w_kernel_pixel5 : std_logic_vector(PIXEL_WIDTH - 1 downto 0);
-  signal w_kernel_pixel6 : std_logic_vector(PIXEL_WIDTH - 1 downto 0);
-  signal w_kernel_pixel7 : std_logic_vector(PIXEL_WIDTH - 1 downto 0);
-  signal w_kernel_pixel8 : std_logic_vector(PIXEL_WIDTH - 1 downto 0);
-  signal w_kernel_pixel9 : std_logic_vector(PIXEL_WIDTH - 1 downto 0);
+  signal w_kernel_pixel1 : std_logic_vector(PIXEL_WIDTH - 1);
+  signal w_kernel_pixel2 : std_logic_vector(PIXEL_WIDTH - 1);
+  signal w_kernel_pixel3 : std_logic_vector(PIXEL_WIDTH - 1);
+  signal w_kernel_pixel4 : std_logic_vector(PIXEL_WIDTH - 1);
+  signal w_kernel_pixel5 : std_logic_vector(PIXEL_WIDTH - 1);
+  signal w_kernel_pixel6 : std_logic_vector(PIXEL_WIDTH - 1);
+  signal w_kernel_pixel7 : std_logic_vector(PIXEL_WIDTH - 1);
+  signal w_kernel_pixel8 : std_logic_vector(PIXEL_WIDTH - 1);
+  signal w_kernel_pixel9 : std_logic_vector(PIXEL_WIDTH - 1);
 begin
 
   -- primeiro line buffer e kernel window 
