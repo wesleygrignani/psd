@@ -1,5 +1,6 @@
 library ieee;
 use ieee.std_logic_1164.all;
+use IEEE.NUMERIC_STD.all;
 library work;
 use work.filter_pkg.all;
 
@@ -80,9 +81,6 @@ begin
 
     w_rst   <= '0';
     w_ld    <= '1';
-    w_pixel <= "00000001";
-    wait for c_CLK_PERIOD;
-
     w_pixel <= std_logic_vector(to_unsigned(1, PIXEL_WIDTH));
     wait for c_CLK_PERIOD;
 
