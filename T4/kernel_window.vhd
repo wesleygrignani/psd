@@ -5,11 +5,13 @@ use work.filter_pkg.all;
 
 entity kernel_window is
   port (
-    i_clk   : in std_logic;
-    i_ld    : in std_logic;
-    i_rst   : in std_logic;
-    i_pixel : in std_logic_vector(PIXEL_WIDTH - 1 downto 0);
-    o_pixel : out std_logic_vector(PIXEL_WIDTH - 1 downto 0)
+    i_clk    : in std_logic;
+    i_ld     : in std_logic;
+    i_rst    : in std_logic;
+    i_pixel  : in std_logic_vector(PIXEL_WIDTH - 1 downto 0);
+    o_pixel1 : out std_logic_vector(PIXEL_WIDTH - 1 downto 0);
+    o_pixel2 : out std_logic_vector(PIXEL_WIDTH - 1 downto 0);
+    o_pixel3 : out std_logic_vector(PIXEL_WIDTH - 1 downto 0)
   );
 end entity;
 
@@ -47,6 +49,8 @@ begin
     o_q   => r_kernel_window(0)
   );
 
+  o_pixel1 <= r_kernel_window(0);
+
   gen_linebuffer : for i in 1 to KERNEL_SIZE - 1 generate
     reg_linebuffer : reg
     generic map(
@@ -61,6 +65,7 @@ begin
     );
   end generate;
 
-  o_pixel <= r_kernel_window(KERNEL_SIZE - 1);
+  o_pixel2 <= r_kernel_window(KERNEL_SIZE - 2);
+  o_pixel3 <= r_kernel_window(KERNEL_SIZE - 1);
 
 end architecture;
