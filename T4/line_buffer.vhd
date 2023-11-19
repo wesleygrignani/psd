@@ -49,7 +49,7 @@ begin
     o_q   => r_linebuffer(0)
   );
 
-  gen_linebuffer : for i in 1 to IMG_WIDTH - KERNEL_SIZE generate
+  gen_linebuffer : for i in 1 to IMG_WIDTH - KERNEL_SIZE - 1 generate
     reg_linebuffer : reg
     generic map(
       p_WIDTH => PIXEL_WIDTH
@@ -63,6 +63,6 @@ begin
     );
   end generate;
 
-  o_pixel <= r_linebuffer(IMG_WIDTH - KERNEL_SIZE);
+  o_pixel <= r_linebuffer(IMG_WIDTH - KERNEL_SIZE - 1);
 
 end architecture;
