@@ -3,6 +3,7 @@
 
 library ieee;
 use ieee.std_logic_1164.all;
+use IEEE.NUMERIC_STD.all;
 library work;
 use work.filter_pkg.all;
 
