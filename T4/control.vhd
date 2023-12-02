@@ -19,7 +19,8 @@ entity control is
     o_en_count_buffer   : out std_logic; -- enable do registrador contador filtrar pela imagem
     o_en_first_full     : out std_logic; -- enable do registrador contador first full
     o_en_count_image    : out std_logic; -- enable do registrador contador da imagem
-    o_en_count_rebuffer : out std_logic -- enable do registrador contador do rebuffer
+    o_en_count_rebuffer : out std_logic; -- enable do registrador contador do rebuffer
+    o_valid : out std_logic -- sinal para informar que a saida é valida
   );
 end control;
 
@@ -52,7 +53,7 @@ begin
 
     -- aguarda encher os buffers 
     when s_buffer => if (i_first_full = '1') then
-    w_NEXT <= s_img_filter;
+    w_NEXT <= s_img_filter; 
   else
     w_NEXT <= s_buffer;
   end if;
@@ -99,7 +100,7 @@ o_rst_rebuffer <= '1' when (r_STATE = s_img_filter) else
 o_en_buffers <= '1' when (r_STATE = s_buffer or r_STATE = s_img_filter or r_STATE = s_wait_full) else
   '0';
 -- enable do registrador de filtragem so pode ser ativo no estado de filtragem
-o_en_filter <= '1' when (r_STATE = s_img_filter) else
+o_en_filter <= '1' when (r_STATE = s_img_filter) or i_first_full = '1' or i_end_rebuffer = '1' else
   '0';
 -- enable do contador first full so pode ser ativo no estado buffer
 o_en_first_full <= '1' when (r_STATE = s_buffer) else
@@ -113,4 +114,7 @@ o_en_count_rebuffer <= '1' when (r_STATE = s_wait_full) else
 -- enable do contador da imagem deve ser ativo em todos os estados menos init 
 o_en_count_image <= '1' when (r_STATE = s_buffer or r_STATE = s_img_filter or r_STATE = s_wait_full) else
   '0';
+  
+o_valid <= '1' when r_STATE = s_img_filter else '0';
+
 end arch_1;

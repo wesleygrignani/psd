@@ -10,7 +10,9 @@ entity filter_top is
     i_rst    : in std_logic;
     i_start  : in std_logic;
     i_pixel  : in std_logic_vector(PIXEL_WIDTH - 1 downto 0);
-    o_filter : out std_logic_vector(PIXEL_WIDTH - 1 downto 0)
+    o_filter : out std_logic_vector(PIXEL_WIDTH - 1 downto 0);
+    o_valid : out std_logic;
+    o_done : out std_logic
   );
 end entity;
 
@@ -58,7 +60,8 @@ architecture rtl of filter_top is
       o_en_count_buffer   : out std_logic;
       o_en_first_full     : out std_logic;
       o_en_count_image    : out std_logic;
-      o_en_count_rebuffer : out std_logic
+      o_en_count_rebuffer : out std_logic;
+      o_valid : out std_logic
     );
   end component;
 
@@ -97,7 +100,8 @@ begin
     o_en_count_buffer   => w_en_count_buffer,
     o_en_first_full     => w_en_first_full,
     o_en_count_image    => w_en_count_image,
-    o_en_count_rebuffer => w_en_count_rebuffer
+    o_en_count_rebuffer => w_en_count_rebuffer,
+    o_valid => o_valid
   );
 
   datapath_inst : datapath
@@ -120,4 +124,7 @@ begin
     o_end_rebuffer     => w_end_rebuffer,
     o_filter           => o_filter
   );
+  
+  o_done <= w_end;
+  
 end architecture;

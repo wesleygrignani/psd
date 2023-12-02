@@ -55,6 +55,8 @@ begin
 
     w_rst   <= '0';
     w_start <= '1';
+    wait for c_CLK_PERIOD;
+    
     w_pixel <= std_logic_vector(to_unsigned(1, PIXEL_WIDTH));
     wait for c_CLK_PERIOD;
 
@@ -161,7 +163,7 @@ begin
     wait for c_CLK_PERIOD;
 
     w_pixel <= std_logic_vector(to_unsigned(36, PIXEL_WIDTH));
-    wait for c_CLK_PERIOD;
+    wait for c_CLK_PERIOD*5;
 
   end process;
 end architecture;

@@ -152,7 +152,7 @@ begin
 
   process (w_img_counter)
   begin
-    if to_integer(unsigned (w_img_counter)) = IMG_WIDTH * IMG_WIDTH - 1 then
+    if to_integer(unsigned (w_img_counter)) = IMG_WIDTH * IMG_WIDTH + (IMG_WIDTH - KERNEL_SIZE + 1) then
       w_end <= '1';
     else
       w_end <= '0';
@@ -185,7 +185,7 @@ begin
   -- esperar encher os buffers iniciais
   process (w_img_first_full)
   begin
-    if to_integer(unsigned (w_img_first_full)) = IMG_WIDTH * KERNEL_SIZE - 1 then
+    if to_integer(unsigned (w_img_first_full)) = IMG_WIDTH * KERNEL_SIZE then
       w_first_full <= '1';
     else
       w_first_full <= '0';
@@ -195,7 +195,7 @@ begin
   -- buffers cheios, esperar filtrar toda as 3 primeiras linhas 
   process (w_img_buffers)
   begin
-    if to_integer(unsigned (w_img_buffers)) = IMG_WIDTH - 2 - 1 then
+    if to_integer(unsigned (w_img_buffers)) = IMG_WIDTH - KERNEL_SIZE then
       w_end_filter <= '1';
     else
       w_end_filter <= '0';
@@ -216,7 +216,7 @@ begin
 
   process (w_kernel_rebuffer)
   begin
-    if to_integer(unsigned (w_kernel_rebuffer)) = KERNEL_SIZE - 1 then
+    if to_integer(unsigned (w_kernel_rebuffer)) = KERNEL_SIZE - 2 then
       w_end_rebuffer <= '1';
     else
       w_end_rebuffer <= '0';
