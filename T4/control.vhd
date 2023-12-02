@@ -5,13 +5,19 @@ entity control is
   port (
     i_CLK               : in std_logic; -- clock
     i_RST               : in std_logic; -- reset/clear
-    i_START             : in std_logic;
+    i_START             : in std_logic; -- sinal de start para comecar o calculo
+    i_first_full        : in std_logic; -- sinal informando que terminou o first full buffering
+    i_end_filter        : in std_logic; -- sinal informando que terminou a filtragem nas 3 primeiras linhas
+    i_end               : in std_logic; -- sinal informando que terminou a filtragem toda da imagem
+    i_end_rebuffer      : in std_logic; -- sinal informando que o rebuffer terminou
     o_rst_buffers       : out std_logic; -- reset para os buffers e contador da imagem
-    o_rst_cont_buffer   : out std_logic; -- reset para o contador first full e filtrar pela imagem
-    o_rst_rebuffer      : out std_logic; -- reset para o contador final do rebuffer
+    o_rst_cont_buffer   : out std_logic; -- reset para o contador filtrar pela imagem
+    o_rst_rebuffer      : out std_logic; -- reset para o contador final do 
+    o_rst_first_full    : out std_logic; -- reset para o contador first full
     o_en_buffers        : out std_logic; -- enable dos buffers 
     o_en_filter         : out std_logic; -- enable do registrador da filtragem
-    o_en_count_buffer   : out std_logic; -- enable do registrador contador first full e filtrar pela imagem
+    o_en_count_buffer   : out std_logic; -- enable do registrador contador filtrar pela imagem
+    o_en_first_full     : out std_logic; -- enable do registrador contador first full
     o_en_count_image    : out std_logic; -- enable do registrador contador da imagem
     o_en_count_rebuffer : out std_logic -- enable do registrador contador do rebuffer
   );
@@ -74,10 +80,37 @@ when others => w_NEXT <= s_init;
 end case;
 end process;
 
--- Output Function
-
+-- Ativacao dos resets 
+-- habilita o reset dos buffers somente no estado inicial 
 o_rst_buffers <= '1' when (r_STATE = s_init) else
   '0';
+-- habilita o reset do contador first full no estado inicial
+o_rst_first_full <= '1' when (r_STATE = s_init) else
+  '0';
+-- habilita o reset do contador da filtragem no estado anterior a ele (s_buffer) e no posterior (s_wait_full) 
+o_rst_cont_buffer <= '1' when (r_STATE = s_buffer and r_STATE = s_wait_full) else
+  '0';
+-- habilita o reset do contador do rebuffer quando esta no estado anterior (s_img_filter)
+o_rst_rebuffer <= '1' when (r_STATE = s_img_filter) else
+  '0';
 
-o_rst_cont_buffer <= '1' when
+-- Ativacao dos enables 
+-- enable dos buffers sempre devem estar recebendo valores de entrada menos no estado init
+o_en_buffers <= '1' when (r_STATE = s_buffer and r_STATE = s_img_filter and r_STATE = s_wait_full) else
+  '0';
+-- enable do registrador de filtragem so pode ser ativo no estado de filtragem
+o_en_filter <= '1' when (r_STATE = s_img_filter) else
+  '0';
+-- enable do contador first full so pode ser ativo no estado buffer
+o_en_first_full <= '1' when (r_STATE = s_buffer) else
+  '0';
+-- enable do contador de filtagem pela imagem so pode ser ativo no estado de filtragem
+o_en_count_buffer <= '1' when (r_STATE = s_img_filter) else
+  '0';
+-- enable do contador de rebuffer so pode ser ativo no estado wait full
+o_en_count_rebuffer <= '1' when (r_STATE = s_wait_full) else
+  '0';
+-- enable do contador da imagem deve ser ativo em todos os estados menos init 
+o_en_count_image <= '1' when (r_STATE = s_buffer and r_STATE = s_img_filter and r_STATE = s_wait_full) else
+  '0';
 end arch_1;
