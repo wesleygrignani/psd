@@ -13,11 +13,13 @@ entity datapath is
     i_rst              : in std_logic;
     i_rst_cont_buffer  : in std_logic; -- reset para o registrador de buferizacao
     i_rst_rebuffer     : in std_logic; -- reset para o registrador de rebuferizacao
+    i_rst_first_full   : in std_logic;
     i_en_buffers       : in std_logic;
     i_en_filter        : in std_logic;
     i_en_cont_img      : in std_logic; -- habilita contador da imagem inteira
     i_en_cont_buffer   : in std_logic; -- habilita contador da primeira bufferizacao e para a filtragem
     i_en_cont_rebuffer : in std_logic; -- habilita contador do rebuffer final
+    i_en_first_full    : in std_logic;
     i_pixel            : in std_logic_vector(PIXEL_WIDTH - 1 downto 0);
     o_end              : out std_logic; -- sinal para informar o bloco de controle que toda imagem foi lida
     o_first_full       : out std_logic; -- sinal para informar que os buffer foram cheios no inicio
@@ -93,9 +95,10 @@ architecture rtl of datapath is
   signal w_img_counter : std_logic_vector(15 downto 0);
   signal w_end         : std_logic;
 
-  signal w_img_buffers : std_logic_vector(9 downto 0);
-  signal w_first_full  : std_logic;
-  signal w_end_filter  : std_logic;
+  signal w_img_buffers    : std_logic_vector(9 downto 0);
+  signal w_img_first_full : std_logic_vector(9 downto 0);
+  signal w_first_full     : std_logic;
+  signal w_end_filter     : std_logic;
 
   signal w_kernel_rebuffer : std_logic_vector(1 downto 0);
   signal w_end_rebuffer    : std_logic;
@@ -157,6 +160,17 @@ begin
   end process;
 
   -- considerando o tamanho maximo da imagem 256 e kernel size 3 (10 bits)
+  contador_first_full : contador
+  generic map(
+    p_WIDTH => 10
+  )
+  port map(
+    i_clk => i_clk,
+    i_ena => i_en_first_full,
+    i_rst => i_rst_first_full,
+    o_q   => w_img_first_full
+  );
+
   contador_buffers : contador
   generic map(
     p_WIDTH => 10
@@ -169,9 +183,9 @@ begin
   );
 
   -- esperar encher os buffers iniciais
-  process (w_img_buffers)
+  process (w_img_first_full)
   begin
-    if to_integer(unsigned (w_img_buffers)) = IMG_WIDTH * KERNEL_SIZE - 1 then
+    if to_integer(unsigned (w_img_first_full)) = IMG_WIDTH * KERNEL_SIZE - 1 then
       w_first_full <= '1';
     else
       w_first_full <= '0';
