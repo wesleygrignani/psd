@@ -16,7 +16,9 @@ architecture rtl of filter_tb is
       i_rst    : in std_logic;
       i_start  : in std_logic;
       i_pixel  : in std_logic_vector(PIXEL_WIDTH - 1 downto 0);
-      o_filter : out std_logic_vector(PIXEL_WIDTH - 1 downto 0)
+      o_filter : out std_logic_vector(PIXEL_WIDTH - 1 downto 0);
+      o_valid  : out std_logic;
+      o_done   : out std_logic
     );
   end component;
 
@@ -25,11 +27,14 @@ architecture rtl of filter_tb is
   signal w_clk    : std_logic;
   signal w_rst    : std_logic;
   signal w_start  : std_logic;
+  signal w_valid  : std_logic;
+  signal w_done   : std_logic;
   signal w_pixel  : std_logic_vector(PIXEL_WIDTH - 1 downto 0);
   signal w_filter : std_logic_vector(PIXEL_WIDTH - 1 downto 0);
 
   -- Buffer for input data file 
   file input_buff : text;
+  file fil_out    : text;
 
 begin
 
@@ -48,8 +53,12 @@ begin
     i_rst    => w_rst,
     i_start  => w_start,
     i_pixel  => w_pixel,
-    o_filter => w_filter
+    o_filter => w_filter,
+    o_valid  => w_valid,
+    o_done   => w_done
   );
+
+  -- processo de escrita no acelerador
   process
     variable read_col_from_input_buff : line;
     variable val_col0                 : integer;
@@ -79,6 +88,21 @@ begin
       wait for c_CLK_PERIOD;
     end loop;
     file_close(input_buff);
+    wait;
+  end process;
+
+  -- processo de leitura do acelerador 
+  p_RESULT : process
+    variable v_line : line;
+  begin
+    file_open(fil_out, "img_out.txt", WRITE_MODE);
+    while true loop
+      wait until rising_edge(clk);
+      if (w_valid = '1') then
+        write(v_line, o_filter);
+        writeline(fil_out, v_line);
+      end if;
+    end loop;
     wait;
   end process;
 end architecture;
