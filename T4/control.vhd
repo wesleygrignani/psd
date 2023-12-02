@@ -40,7 +40,7 @@ begin
   end process;
 
   -- Next State Function
-  process (r_STATE)
+  process (r_STATE, i_START, i_first_full, i_end_filter, i_end, i_end_rebuffer)
   begin
     case r_STATE is
         -- estado inicial 
