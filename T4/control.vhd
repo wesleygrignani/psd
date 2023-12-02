@@ -88,7 +88,7 @@ o_rst_buffers <= '1' when (r_STATE = s_init) else
 o_rst_first_full <= '1' when (r_STATE = s_init) else
   '0';
 -- habilita o reset do contador da filtragem no estado anterior a ele (s_buffer) e no posterior (s_wait_full) 
-o_rst_cont_buffer <= '1' when (r_STATE = s_buffer and r_STATE = s_wait_full) else
+o_rst_cont_buffer <= '1' when (r_STATE = s_buffer or r_STATE = s_wait_full) else
   '0';
 -- habilita o reset do contador do rebuffer quando esta no estado anterior (s_img_filter)
 o_rst_rebuffer <= '1' when (r_STATE = s_img_filter) else
@@ -96,7 +96,7 @@ o_rst_rebuffer <= '1' when (r_STATE = s_img_filter) else
 
 -- Ativacao dos enables 
 -- enable dos buffers sempre devem estar recebendo valores de entrada menos no estado init
-o_en_buffers <= '1' when (r_STATE = s_buffer and r_STATE = s_img_filter and r_STATE = s_wait_full) else
+o_en_buffers <= '1' when (r_STATE = s_buffer or r_STATE = s_img_filter or r_STATE = s_wait_full) else
   '0';
 -- enable do registrador de filtragem so pode ser ativo no estado de filtragem
 o_en_filter <= '1' when (r_STATE = s_img_filter) else
@@ -111,6 +111,6 @@ o_en_count_buffer <= '1' when (r_STATE = s_img_filter) else
 o_en_count_rebuffer <= '1' when (r_STATE = s_wait_full) else
   '0';
 -- enable do contador da imagem deve ser ativo em todos os estados menos init 
-o_en_count_image <= '1' when (r_STATE = s_buffer and r_STATE = s_img_filter and r_STATE = s_wait_full) else
+o_en_count_image <= '1' when (r_STATE = s_buffer or r_STATE = s_img_filter or r_STATE = s_wait_full) else
   '0';
 end arch_1;
