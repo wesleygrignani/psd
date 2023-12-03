@@ -60,6 +60,8 @@ architecture rtl of img_buffer is
   signal w_kernel_pixel7 : std_logic_vector(PIXEL_WIDTH - 1 downto 0);
   signal w_kernel_pixel8 : std_logic_vector(PIXEL_WIDTH - 1 downto 0);
   signal w_kernel_pixel9 : std_logic_vector(PIXEL_WIDTH - 1 downto 0);
+  
+  
 begin
 
   -- primeiro line buffer e kernel window 
