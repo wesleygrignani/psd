@@ -3,17 +3,22 @@ use ieee.std_logic_1164.all;
 use IEEE.NUMERIC_STD.all;
 
 entity datapath is
+  generic (
+    SAMPLES : positive := 32
+  );
   port (
-    i_clk        : in std_logic;
-    i_rst        : in std_logic;
-    i_en_xt_regs : in std_logic;
-    i_en_c012    : in std_logic;
-    i_en_y       : in std_logic;
-    i_data       : in std_logic_vector(11 downto 0);
-    i_c0         : in std_logic_vector(2 downto 0);
-    i_c1         : in std_logic_vector(2 downto 0);
-    i_c2         : in std_logic_vector(2 downto 0);
-    o_output     : out std_logic_vector(11 downto 0)
+    i_clk         : in std_logic;
+    i_rst         : in std_logic;
+    i_en_xt_regs  : in std_logic;
+    i_en_c012     : in std_logic;
+    i_en_contador : in std_logic;
+    i_en_y        : in std_logic;
+    i_data        : in std_logic_vector(11 downto 0);
+    i_c0          : in std_logic_vector(2 downto 0);
+    i_c1          : in std_logic_vector(2 downto 0);
+    i_c2          : in std_logic_vector(2 downto 0);
+    o_end         : out std_logic;
+    o_output      : out std_logic_vector(11 downto 0)
   );
 end entity;
 architecture rtl of datapath is
@@ -28,6 +33,19 @@ architecture rtl of datapath is
       i_ena : in std_logic;
       i_rst : in std_logic;
       i_d   : in std_logic_vector(p_WIDTH - 1 downto 0);
+      o_q   : out std_logic_vector(p_WIDTH - 1 downto 0)
+    );
+  end component;
+
+  -- registrador contador
+  component contador
+    generic (
+      p_WIDTH : positive
+    );
+    port (
+      i_clk : in std_logic;
+      i_ena : in std_logic;
+      i_rst : in std_logic;
       o_q   : out std_logic_vector(p_WIDTH - 1 downto 0)
     );
   end component;
@@ -47,6 +65,10 @@ architecture rtl of datapath is
   signal w_multc2 : integer;
   signal w_sum1   : integer;
   signal w_sum2   : integer;
+
+  signal w_cont : std_logic_vector(9 downto 0);
+
+  signal w_end : std_logic;
 
 begin
   -- Registradores da entrada
@@ -142,5 +164,28 @@ begin
     i_d   => std_logic_vector(to_unsigned(w_sum2, 12)),
     o_q   => o_output
   );
+
+  contador_inst : contador
+  generic map(
+    p_WIDTH => 10
+  )
+  port map(
+    i_clk => i_clk,
+    i_ena => i_en_contador,
+    i_rst => i_rst,
+    o_q   => w_cont
+  );
+
+  -- esperar encher os buffers iniciais
+  process (w_cont)
+  begin
+    if to_integer(unsigned(w_cont)) = SAMPLES then
+      w_end <= '1';
+    else
+      w_end <= '0';
+    end if;
+  end process;
+
+  o_end <= w_end;
 
 end architecture;
