@@ -3,9 +3,6 @@ use ieee.std_logic_1164.all;
 use IEEE.NUMERIC_STD.all;
 
 entity datapath is
-  generic (
-    SAMPLES : positive := 32
-  );
   port (
     i_clk         : in std_logic;
     i_rst         : in std_logic;
@@ -179,7 +176,7 @@ begin
   -- esperar encher os buffers iniciais
   process (w_cont)
   begin
-    if to_integer(unsigned(w_cont)) = SAMPLES then
+    if to_integer(unsigned(w_cont)) = 15 then
       w_end <= '1';
     else
       w_end <= '0';
