@@ -1,6 +1,8 @@
+library ieee;
+use ieee.std_logic_1164.all;
+
 entity fir_top is
-  port
-  (
+  port (
     i_clk    : in std_logic;
     i_reset  : in std_logic;
     i_START  : in std_logic;
@@ -15,8 +17,7 @@ end entity;
 architecture rtl of fir_top is
 
   component datapath
-    port
-    (
+    port (
       i_clk         : in std_logic;
       i_rst         : in std_logic;
       i_en_xt_regs  : in std_logic;
@@ -32,8 +33,7 @@ architecture rtl of fir_top is
     );
   end component;
   component control
-    port
-    (
+    port (
       i_CLK         : in std_logic;
       i_RST         : in std_logic;
       i_START       : in std_logic;
@@ -72,17 +72,16 @@ begin
   );
 
   control_inst : control
-  port
-  map (
-  i_CLK         => i_clk,
-  i_RST         => i_reset,
-  i_START       => i_START,
-  i_EQ_val      => w_end,
-  o_reset       => w_reset,
-  o_en_c012     => w_en_c012,
-  o_en_contador => w_en_contador,
-  o_en_y        => w_en_y,
-  o_en_xt       => w_en_xt_regs
+  port map(
+    i_CLK         => i_clk,
+    i_RST         => i_reset,
+    i_START       => i_START,
+    i_EQ_val      => w_end,
+    o_reset       => w_reset,
+    o_en_c012     => w_en_c012,
+    o_en_contador => w_en_contador,
+    o_en_y        => w_en_y,
+    o_en_xt       => w_en_xt_regs
   );
 
 end architecture;
