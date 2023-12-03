@@ -92,11 +92,11 @@ architecture rtl of datapath is
   signal w_kernel_pixel9 : std_logic_vector(PIXEL_WIDTH - 1 downto 0);
 
   -- considerando imagem de tamanho maximo de 256
-  signal w_img_counter : std_logic_vector(15 downto 0);
+  signal w_img_counter : std_logic_vector(16 downto 0);
   signal w_end         : std_logic;
 
-  signal w_img_buffers    : std_logic_vector(9 downto 0);
-  signal w_img_first_full : std_logic_vector(9 downto 0);
+  signal w_img_buffers    : std_logic_vector(10 downto 0);
+  signal w_img_first_full : std_logic_vector(10 downto 0);
   signal w_first_full     : std_logic;
   signal w_end_filter     : std_logic;
 
@@ -141,7 +141,7 @@ begin
   -- contador da imagem inteira para saber quando acabar a filtragem
   contador_img : contador
   generic map(
-    p_WIDTH => 16
+    p_WIDTH => 17
   )
   port map(
     i_clk => i_clk,
@@ -162,7 +162,7 @@ begin
   -- considerando o tamanho maximo da imagem 256 e kernel size 3 (10 bits)
   contador_first_full : contador
   generic map(
-    p_WIDTH => 10
+    p_WIDTH => 11
   )
   port map(
     i_clk => i_clk,
@@ -173,7 +173,7 @@ begin
 
   contador_buffers : contador
   generic map(
-    p_WIDTH => 10
+    p_WIDTH => 11
   )
   port map(
     i_clk => i_clk,

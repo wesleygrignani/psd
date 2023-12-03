@@ -63,9 +63,10 @@ begin
     variable read_col_from_input_buff : line;
     variable val_col0                 : integer;
     variable v_space                  : character;
+    variable v_data : std_logic_vector(7 downto 0);
   begin
 
-    file_open(input_buff, "tb_data.txt", READ_MODE);
+    file_open(input_buff, "img_lena.txt", READ_MODE);
 
     w_rst   <= '1';
     w_start <= '0';
@@ -80,10 +81,11 @@ begin
     while not endfile(input_buff) loop
       readline(input_buff, read_col_from_input_buff);
 
-      read(read_col_from_input_buff, val_col0); -- amostra da imagem
+      read(read_col_from_input_buff, v_data); -- amostra da imagem
 
       -- passa o valor lido do txt para o sinal 
-      w_pixel <= std_logic_vector(to_unsigned (val_col0, PIXEL_WIDTH));
+      --w_pixel <= std_logic_vector(to_unsigned (val_col0, PIXEL_WIDTH));
+      w_pixel <= v_data;
 
       wait for c_CLK_PERIOD;
     end loop;
@@ -95,11 +97,11 @@ begin
   p_RESULT : process
     variable v_line : line;
   begin
-    file_open(fil_out, "img_out.txt", WRITE_MODE);
+    file_open(fil_out, "img_lena_out.txt", WRITE_MODE);
     while true loop
-      wait until rising_edge(clk);
+      wait until rising_edge(w_clk);
       if (w_valid = '1') then
-        write(v_line, o_filter);
+        write(v_line, w_filter);
         writeline(fil_out, v_line);
       end if;
     end loop;

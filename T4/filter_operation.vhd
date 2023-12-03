@@ -64,7 +64,7 @@ begin
   w_kernel_9 <= to_integer(unsigned(i_kernel_pixel9));
 
   -- filtragem desejada 
-  w_kernel_out <= (w_kernel_1 + w_kernel_2 + w_kernel_3 + w_kernel_4 + w_kernel_5 + w_kernel_6 + w_kernel_7 + w_kernel_8 + w_kernel_9)/9;
+  w_kernel_out <= abs(w_kernel_1 + w_kernel_2 + w_kernel_3 + w_kernel_4 + w_kernel_5*(-8) + w_kernel_6 + w_kernel_7 + w_kernel_8 + w_kernel_9);
 
   -- O sinal de load deve ser diferente do sinal de load dos registradores de line buffer e kernel window
   -- O sinal de load só será ativo pelo bloco de controle quando os kernels window estiverem cheios

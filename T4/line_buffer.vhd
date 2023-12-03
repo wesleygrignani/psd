@@ -19,6 +19,9 @@ architecture rtl of line_buffer is
 
   type t_linebuffer is array(0 to IMG_WIDTH - KERNEL_SIZE) of std_logic_vector(PIXEL_WIDTH - 1 downto 0);
   signal r_linebuffer : t_linebuffer;
+  
+  attribute dont_touch : string;
+  attribute dont_touch of r_linebuffer : signal is "false";
 
   -- registrador
   component reg
