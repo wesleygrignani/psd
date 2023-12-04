@@ -6,13 +6,18 @@ use work.filter_pkg.all;
 
 entity filter_top is
   port (
-    i_clk    : in std_logic;
-    i_rst    : in std_logic;
-    i_start  : in std_logic;
-    i_pixel  : in std_logic_vector(PIXEL_WIDTH - 1 downto 0);
-    o_valid  : out std_logic;
-    o_end    : out std_logic;
-    o_filter : out std_logic_vector(PIXEL_WIDTH - 1 downto 0)
+    axi_clk : in std_logic;
+    axi_rst : in std_logic;
+    -- AXIS slave interface (Input of filter)
+    s_axis_valid : in std_logic;
+    s_axis_ready : out std_logic;
+    s_axis_last  : in std_logic;
+    s_axis_data  : in std_logic_vector(PIXEL_WIDTH - 1 downto 0);
+    -- AXIS master interface (Output from compressor)
+    m_axis_valid : out std_logic;
+    m_axis_ready : in std_logic;
+    m_axis_last  : out std_logic;
+    m_axis_data  : out std_logic_vector(PIXEL_WIDTH - 1 downto 0)
   );
 end entity;
 
@@ -117,12 +122,12 @@ begin
     i_en_cont_buffer   => w_en_count_buffer,
     i_en_cont_rebuffer => w_en_count_rebuffer,
     i_en_first_full    => w_en_first_full,
-    i_pixel            => i_pixel,
+    i_pixel            => s_axis_data,
     o_end              => w_end,
     o_first_full       => w_first_full,
     o_end_filter       => w_end_filter,
     o_end_rebuffer     => w_end_rebuffer,
-    o_filter           => o_filter
+    o_filter           => m_axis_data
   );
 
   o_end <= w_end;
