@@ -34,7 +34,7 @@ begin
   end process;
 
   -- Next State Function
-  process (r_STATE)
+  process (r_STATE, i_START, i_EQ_val)
   begin
     case r_STATE is
       when s_INIT => if (i_START = '1') then

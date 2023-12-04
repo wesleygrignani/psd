@@ -90,6 +90,33 @@ begin
     w_sample <= std_logic_vector(to_unsigned(7, 12));
     wait for c_CLK_PERIOD * 2;
 
+w_sample <= std_logic_vector(to_unsigned(8, 12));
+    wait for c_CLK_PERIOD * 2;
+
+w_sample <= std_logic_vector(to_unsigned(9, 12));
+    wait for c_CLK_PERIOD * 2;
+
+w_sample <= std_logic_vector(to_unsigned(10, 12));
+    wait for c_CLK_PERIOD * 2;
+
+w_sample <= std_logic_vector(to_unsigned(11, 12));
+    wait for c_CLK_PERIOD * 2;
+
+w_sample <= std_logic_vector(to_unsigned(12, 12));
+    wait for c_CLK_PERIOD * 2;
+
+w_sample <= std_logic_vector(to_unsigned(13, 12));
+    wait for c_CLK_PERIOD * 2;
+
+w_sample <= std_logic_vector(to_unsigned(14, 12));
+    wait for c_CLK_PERIOD * 2;
+
+w_sample <= std_logic_vector(to_unsigned(15, 12));
+    wait for c_CLK_PERIOD * 2;
+
+w_sample <= std_logic_vector(to_unsigned(16, 12));
+    wait for c_CLK_PERIOD * 2;
+
     wait;
   end process;
 
